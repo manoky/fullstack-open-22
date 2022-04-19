@@ -21,7 +21,11 @@ const Content = ({ parts }) => {
 };
 
 const Total = ({ total }) => {
-  return <b>Number of exercises {total}</b>;
+  return (
+    <div>
+      <b>Number of exercises {total}</b>
+    </div>
+  );
 };
 
 const Course = ({ course }) => {
