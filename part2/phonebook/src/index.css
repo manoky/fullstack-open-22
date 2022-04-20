@@ -1,0 +1,41 @@
+.error, .success, .info {
+    color: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 25px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+        rgba(0, 0, 0, 0.14) 0 6px 10px 0,
+        rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+}
+
+.error {
+    background-color: #D32F2F;
+}
+
+.success {
+    background-color: #2E7D32;
+}
+
+.info {
+    background-color: #0288D1;
+}
+
+input {
+    padding: 7px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+
+form button {
+    margin: auto;
+    padding: 7px 20px;
+    width: 100%;
+    max-width: 320px;
+}
+
+.persons-table td {
+    padding: 2px 8px;
+}

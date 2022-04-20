@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { PersonForm, Filter } from "./components/Forms";
 import Persons from "./components/Persons";
 import personsService from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,12 +10,15 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [notice, setNotice] = useState({ message: "", type: "" });
 
   useEffect(() => {
     personsService
       .getAll()
       .then((initialData) => setPersons(initialData))
-      .catch((err) => console.error(err));
+      .catch(() =>
+        setNotice({ message: "Error getting phonebook list", type: "error" })
+      );
   }, []);
 
   const addPerson = (e) => {
@@ -43,7 +46,12 @@ const App = () => {
           })
           .then((person) =>
             setPersons(persons.map((p) => (p.id !== person.id ? p : person)))
+          )
+          .catch(() =>
+            setNotice({ message: `Error updating ${newName}`, type: "error" })
           );
+
+        setNotice({ message: `Updated ${newName}`, type: "success" });
         setNewName("");
         setNewNumber("");
       }
@@ -52,8 +60,12 @@ const App = () => {
 
     personsService
       .create(newPerson)
-      .then((person) => setPersons(persons.concat(person)));
+      .then((person) => setPersons(persons.concat(person)))
+      .catch(() =>
+        setNotice({ message: `Error adding ${newName}`, type: "error" })
+      );
 
+    setNotice({ message: `Added ${newName}`, type: "success" });
     setNewName("");
     setNewNumber("");
   };
@@ -74,7 +86,18 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}`)) {
       personsService
         .remove(person.id)
-        .then(() => setPersons(persons.filter((p) => p.id !== person.id)));
+        .then(() => setPersons(persons.filter((p) => p.id !== person.id)))
+        .catch(() =>
+          setNotice({
+            message: `Information of ${person.name} has already been removed from server`,
+            type: "error",
+          })
+        );
+
+      setNotice({
+        message: `Removed ${person.name} from server`,
+        type: "error",
+      });
     }
   };
 
@@ -87,6 +110,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification
+        message={notice.message}
+        setMessage={setNotice}
+        type={notice.type}
+      />
       <Filter handleSearch={handleSearch} searchTerm={searchTerm} />
       <h3>add a new</h3>
       <PersonForm

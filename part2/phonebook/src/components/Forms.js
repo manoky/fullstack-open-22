@@ -8,9 +8,11 @@ const PersonForm = ({
   return (
     <form onSubmit={addPerson}>
       <div>
-        name: <input value={newName} onChange={addNewName} />
+        <label htmlFor="name">name:</label>
+        <input value={newName} onChange={addNewName} id="name" />
         <div>
-          number: <input value={newNumber} onChange={addNewNumber} />
+          <label htmlFor="number">number:</label>
+          <input value={newNumber} onChange={addNewNumber} id="number" />
         </div>
       </div>
       <div>
